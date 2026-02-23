@@ -48,7 +48,7 @@ import com.example.calculator.enums.scienceSymbols
 import com.example.calculator.enums.symbols
 import com.example.calculator.ui.AppViewModelProvider
 import com.example.calculator.ui.theme.Typography
-import com.example.calculator.ui.viewModel.BasicViewModel
+import com.example.calculator.ui.viewmodel.BasicViewModel
 import com.example.calculator.ui.widgets.CalButton
 import com.example.calculator.ui.widgets.CalInput
 
@@ -64,12 +64,12 @@ fun BasicScreen(
     initId: Int? = null,
     canPop: Boolean = false,
 ) {
-    val input by basicViewModel.expression.collectAsState()
+    val input by basicViewModel.expStr.collectAsState()
     val result by basicViewModel.result.collectAsState()
     val mode by basicViewModel.mode.collectAsState()
     val scrollState = rememberScrollState()
-    val index by basicViewModel.index.collectAsState()
     val clipboardManager = LocalClipboard.current
+    val expression = basicViewModel.expressionListState.collectAsState()
 
     if (initId != null) {
         basicViewModel.initState(initId)
@@ -124,12 +124,9 @@ fun BasicScreen(
                     horizontalAlignment = Alignment.End
                 ) {
                     CalInput(
-                        value = input,
-                        setIndex = { index ->
-                            basicViewModel.updateMarkIndex(index)
-                        },
-                        onPaste = { index ->
-                            basicViewModel.pasteFromClipboard(clipboardManager, index)
+                        value = expression.value,
+                        onPaste = {
+                            basicViewModel.pasteFromClipboard(clipboardManager)
                         },
                         basicViewModel = basicViewModel
                     )
@@ -196,19 +193,7 @@ fun BasicScreen(
 
                         "" -> {
                             if (input.isNotEmpty()) {
-                                if (index < 1) {
-                                    basicViewModel.updateExpression(
-                                        input.dropLast(1)
-                                    )
-                                    basicViewModel.updateMarkIndex(0)
-                                } else {
-                                    basicViewModel.updateExpression(
-                                        input.take(index - 1) + input.substring(
-                                            index
-                                        )
-                                    )
-                                    basicViewModel.updateMarkIndex(index - 1)
-                                }
+                                basicViewModel.popToken()
                             }
                         }
 
@@ -221,14 +206,23 @@ fun BasicScreen(
                                         "Φ",
                                         "e"
                                     )
-                                }) "$token()" else token
+                                }) "$token(" else token
 
-                            basicViewModel.updateExpression(
-                                input.take(index) + newValue + input.substring(
-                                    index
+                            basicViewModel.pushTokens(
+                                listOf(
+                                    newValue,
                                 )
                             )
-                            basicViewModel.updateMarkIndex(index + newValue.length)
+
+                            if (token in scienceSymbols.filter {
+                                    it !in listOf(
+                                        "π",
+                                        "Φ",
+                                        "e"
+                                    )
+                                }) {
+                                basicViewModel.pushTokens(listOf(" ", ")"))
+                            }
                         }
                     }
                 },

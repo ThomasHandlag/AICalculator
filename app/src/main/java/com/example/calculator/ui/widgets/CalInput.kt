@@ -14,7 +14,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -22,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
@@ -31,87 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
-import com.example.calculator.ui.viewModel.BasicViewModel
-import kotlin.text.indexOf
-
-data class CalToken(
-    val id: Int,
-    val value: String,
-    val isOperator: Boolean
-)
-
-fun parseExpression(expression: String): List<CalToken> {
-    if (expression.isEmpty()) return emptyList()
-
-    val tokens = mutableListOf<CalToken>()
-    val operators = setOf('+', '-', 'x', '×', '÷', '/', '%', '(', ')', '^', '√', '∛')
-    val currentNumber = StringBuilder()
-
-    var i = 0
-    var opCount = 0
-    var oprCount = 0
-    while (i < expression.length) {
-        val char = expression[i]
-
-        if (i + 2 < expression.length) {
-            val threeChar = expression.substring(i, i + 3)
-            if (threeChar in setOf("sin", "cos", "tan", "log")) {
-                if (currentNumber.isNotEmpty()) {
-                    tokens.add(CalToken(oprCount++, currentNumber.toString(), isOperator = false))
-                    currentNumber.clear()
-                }
-                tokens.add(CalToken(opCount++, threeChar, isOperator = true))
-                i += 3
-                continue
-            }
-        }
-
-        if (i + 1 < expression.length) {
-            val twoChar = expression.substring(i, i + 2)
-            if (twoChar in setOf("ln", "π", "Φ")) {
-                if (currentNumber.isNotEmpty()) {
-                    tokens.add(CalToken(oprCount++, currentNumber.toString(), isOperator = false))
-                    currentNumber.clear()
-                }
-                tokens.add(CalToken(opCount++, twoChar, isOperator = true))
-                i += 2
-                continue
-            }
-        }
-
-        if (char in operators) {
-            // Save the accumulated number if any
-            if (currentNumber.isNotEmpty()) {
-                tokens.add(CalToken(oprCount++, currentNumber.toString(), isOperator = false))
-                currentNumber.clear()
-            }
-            tokens.add(CalToken(opCount++, char.toString(), isOperator = true))
-        } else if (char.isWhitespace()) {
-            // Skip whitespace
-        } else {
-            currentNumber.append(char)
-        }
-        i++
-    }
-
-    if (currentNumber.isNotEmpty()) {
-        tokens.add(CalToken(oprCount, currentNumber.toString(), isOperator = false))
-    }
-
-    return tokens
-}
+import com.example.calculator.ui.viewmodel.BasicViewModel
+import com.example.calculator.ui.viewmodel.TokenData
 
 @Composable
 fun CalInput(
-    value: String = "23+45×6",
-    setIndex: (index: Int) -> Unit = { _ -> },
-    onPaste: (index: Int) -> Unit = {},
+    value: List<TokenData> = emptyList(),
+    onPaste: (index: Long) -> Unit = {},
     textStyle: TextStyle = TextStyle(fontSize = 60.sp, color = Color.Black),
     basicViewModel: BasicViewModel
 ) {
-    val selectedIndex by basicViewModel.tokenIndex.collectAsState()
+    val selectedIndex = basicViewModel.selectedTokenId.collectAsState()
     val scrollState = rememberScrollState()
-    val tokens = parseExpression(value)
 
     Box(
         modifier = Modifier
@@ -135,18 +64,15 @@ fun CalInput(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                tokens.forEachIndexed { index, token ->
-                    val isSelected = selectedIndex == index
+                value.forEach { token ->
                     TokenItem(
                         token = token,
-                        isSelected = isSelected,
-                        index = index,
-                        selectedIndex = selectedIndex,
-                        setSelectedIndex = { index -> basicViewModel.setTokenIndex(index) },
-                        setIndex = setIndex,
-                        value = value,
+                        selectedIndex = selectedIndex.value,
+                        setSelectedIndex = { index -> basicViewModel.setSelectedTokenId(index) },
                         textStyle = textStyle,
-                        onPaste = onPaste
+                        onPaste = {
+                            onPaste(token.tokenId)
+                        },
                     )
                 }
             }
@@ -156,17 +82,14 @@ fun CalInput(
 
 @Composable
 fun TokenItem(
-    token: CalToken,
-    isSelected: Boolean,
-    index: Int,
-    selectedIndex: Int?,
-    setSelectedIndex: (index: Int?) -> Unit,
-    setIndex: (index: Int) -> Unit,
-    onPaste: (index: Int) -> Unit,
-    value: String,
+    token: TokenData,
+    selectedIndex: Long?,
+    setSelectedIndex: (index: Long?) -> Unit,
+    onPaste: (index: Long) -> Unit,
     textStyle: TextStyle = TextStyle(fontSize = 60.sp, color = Color.Black),
 ) {
     val (showOption, setShowOption) = rememberSaveable { mutableStateOf(false) }
+    val isSelected = selectedIndex == token.tokenId
     val dropdownPopupPositioner = remember {
         object : PopupPositionProvider {
             override fun calculatePosition(
@@ -193,26 +116,18 @@ fun TokenItem(
                         setShowOption(true)
                     },
                     onClick = {
-                        setSelectedIndex(if (selectedIndex == index) null else index)
-                        if (selectedIndex != null) {
-                            setIndex(findNTokenIndex(
-                                value,
-                                token.value,
-                                token.id
-                            ))
-                        } else {
-                            setIndex(value.length)
-                        }
+                        setSelectedIndex(if (selectedIndex == token.tokenId) null else token.tokenId)
                     }
                 ),
-            color = if (isSelected) Color.Green.copy(alpha = .4f) else Color.Transparent,
+            color = if (isSelected) Color.Green.copy(alpha = .4f) else if (token.token == " ") Color.Gray.copy(
+                .5f
+            ) else Color.Transparent,
             shape = RoundedCornerShape(6.dp)
         ) {
             Text(
-                text = token.value,
+                text = token.token,
                 style = textStyle.copy(
                     letterSpacing = 0.sp,
-                    fontWeight = if (token.isOperator) FontWeight.Bold else FontWeight.Normal,
                 ),
                 modifier = Modifier.padding(horizontal = 3.dp, vertical = 2.dp)
             )
@@ -222,7 +137,7 @@ fun TokenItem(
             Popup(popupPositionProvider = dropdownPopupPositioner) {
                 Surface(
                     onClick = {
-                        onPaste(index)
+                        onPaste(token.tokenId)
                         setShowOption(false)
                     },
                     shape = RoundedCornerShape(8.dp),
@@ -240,21 +155,20 @@ fun TokenItem(
     }
 }
 
-fun findNTokenIndex(exp: String, token: String, id: Int): Int {
-    var tempValue = exp
-    var nIndex = -1
-    var i = 0
-    while (i < id) {
-        val cIndex = tempValue.indexOf(token) + token.length
-        if (nIndex > -1) {
-            nIndex+=cIndex
-        }
-        else {
-            nIndex = cIndex
-        }
-        i++
-        tempValue = exp.substring(nIndex)
-    }
-
-    return if (nIndex > -1) nIndex else exp.length
-}
+//fun findNTokenIndex(exp: String, token: String, id: Int): Int {
+//    var tempValue = exp
+//    var nIndex = -1
+//    var i = 0
+//    while (i < id) {
+//        val cIndex = tempValue.indexOf(token) + token.length
+//        if (nIndex > -1) {
+//            nIndex += cIndex
+//        } else {
+//            nIndex = cIndex
+//        }
+//        i++
+//        tempValue = exp.substring(nIndex)
+//    }
+//
+//    return if (nIndex > -1) nIndex else exp.length
+//}
