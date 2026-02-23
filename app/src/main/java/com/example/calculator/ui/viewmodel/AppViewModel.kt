@@ -1,4 +1,4 @@
-package com.example.calculator.ui.viewModel
+package com.example.calculator.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

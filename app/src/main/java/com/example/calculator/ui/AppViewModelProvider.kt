@@ -5,9 +5,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.calculator.CalculatorApplication
-import com.example.calculator.ui.viewModel.AppViewModel
-import com.example.calculator.ui.viewModel.BasicViewModel
-import com.example.calculator.ui.viewModel.HistoryViewModel
+import com.example.calculator.ui.viewmodel.AppViewModel
+import com.example.calculator.ui.viewmodel.BasicViewModel
+import com.example.calculator.ui.viewmodel.HistoryViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {

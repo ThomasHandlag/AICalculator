@@ -1,5 +1,6 @@
 package com.example.calculator.ui.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,10 +24,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.R
 import com.example.calculator.navigation.Route
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewModel.AppViewModel
+import com.example.calculator.ui.viewmodel.AppViewModel
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SplashScreen(
     navigateTo: (path: String) -> Unit = {},

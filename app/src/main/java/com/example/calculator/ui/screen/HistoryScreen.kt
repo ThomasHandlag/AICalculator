@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewModel.CalHistoryData
-import com.example.calculator.ui.viewModel.HistoryViewModel
+import com.example.calculator.ui.viewmodel.CalHistoryData
+import com.example.calculator.ui.viewmodel.HistoryViewModel
 import com.example.calculator.ui.widgets.HistoryDetail
 
 @OptIn(ExperimentalMaterial3Api::class)

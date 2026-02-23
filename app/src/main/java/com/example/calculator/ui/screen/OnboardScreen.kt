@@ -37,7 +37,7 @@ import com.example.calculator.R
 import com.example.calculator.enums.AppLanguage
 import com.example.calculator.navigation.Route
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewModel.AppViewModel
+import com.example.calculator.ui.viewmodel.AppViewModel
 import com.example.calculator.ui.widgets.IconRadioButton
 
 @OptIn(ExperimentalMaterial3Api::class)

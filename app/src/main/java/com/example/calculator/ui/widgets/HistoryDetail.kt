@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.screen.HistoryItem
-import com.example.calculator.ui.viewModel.CalHistoryData
+import com.example.calculator.ui.viewmodel.CalHistoryData
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
