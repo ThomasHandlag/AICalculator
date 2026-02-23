@@ -1,0 +1,10 @@
+package com.example.calculator.enums
+
+val symbols: List<String> = listOf(
+    "AC", "( )", "%", "÷", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", "."
+)
+
+val scienceSymbols: List<String> = listOf(
+    "Φ", "e", "log", "ln",
+    "sin", "cos", "tan", "π", "e", "∛", "√", "^"
+)
