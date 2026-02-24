@@ -8,6 +8,7 @@ import com.example.calculator.CalculatorApplication
 import com.example.calculator.ui.viewmodel.AppViewModel
 import com.example.calculator.ui.viewmodel.BasicViewModel
 import com.example.calculator.ui.viewmodel.HistoryViewModel
+import com.example.calculator.ui.viewmodel.UnitViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -20,11 +21,14 @@ object AppViewModelProvider {
         initializer {
             BasicViewModel(this.calculatorApplication().appContainer.calHistoryRepository)
         }
-            initializer {
-                HistoryViewModel(
-                    repo = this.calculatorApplication().appContainer.calHistoryRepository
-                )
-            }
+        initializer {
+            HistoryViewModel(
+                repo = this.calculatorApplication().appContainer.calHistoryRepository
+            )
+        }
+        initializer {
+            UnitViewModel()
+        }
     }
 }
 

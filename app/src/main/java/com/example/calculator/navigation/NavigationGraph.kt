@@ -12,6 +12,7 @@ import com.example.calculator.ui.screen.CalModeScreen
 import com.example.calculator.ui.screen.HistoryScreen
 import com.example.calculator.ui.screen.OnboardScreen
 import com.example.calculator.ui.screen.ScreenProps
+import com.example.calculator.ui.screen.UnitConverterScreen
 
 @Composable
 fun NavigationGraph(
@@ -62,7 +63,7 @@ fun NavigationGraph(
 
         composable(
             Route.BasicCal.path
-        ) { navBackStackEntry ->
+        ) {
             val canPop = navController.previousBackStackEntry != null
             BasicScreen(
                 canPop = canPop,
@@ -82,6 +83,16 @@ fun NavigationGraph(
         composable(Route.Onboard.path) {
             OnboardScreen(
                 navigateTo = { path -> navController.navigate(path) }
+            )
+        }
+
+        composable(Route.UnitCon.path) {
+            val canPop = navController.previousBackStackEntry != null
+            UnitConverterScreen(
+                onNavigate = {
+                    navController.navigateUp()
+                },
+                canPop = canPop
             )
         }
 

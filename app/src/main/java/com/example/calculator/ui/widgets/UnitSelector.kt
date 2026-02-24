@@ -11,8 +11,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForwardIos
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,17 +23,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview()
 fun UnitSelector(
-    unitType: CalUnitType = CalUnitType.LENGTH
+    unitType: CalUnitType = CalUnitType.LENGTH,
+    onSelect: (CalUnit?) -> Unit = {},
+    sheetState: SheetState,
+    show: Boolean = false
 ) {
-
     val unitList = when (unitType) {
         CalUnitType.LENGTH -> listOf(
             LengthUnit.CM,
@@ -41,40 +45,51 @@ fun UnitSelector(
             LengthUnit.YD,
             LengthUnit.MI
         )
+
         CalUnitType.WEIGHT -> listOf(
             WeightUnit.G,
             WeightUnit.KG,
             WeightUnit.LB,
             WeightUnit.OZ
         )
+
         CalUnitType.VOLUME -> listOf(
             VolumeUnit.ML,
             VolumeUnit.L,
             VolumeUnit.GAL,
             VolumeUnit.PT
         )
-        CalUnitType.TEMPERATURE -> listOf(
-            TemperatureUnit.C,
-            TemperatureUnit.F,
-            TemperatureUnit.K
-        )
+
+//        CalUnitType.TEMPERATURE -> listOf(
+//            TemperatureUnit.C,
+//            TemperatureUnit.F,
+//            TemperatureUnit.K
+//        )
+
         CalUnitType.AREA -> listOf(
             AreaUnit.SQM,
             AreaUnit.SQKM,
             AreaUnit.SQFT,
-            AreaUnit.ACRE
+            AreaUnit.SQCM,
+            AreaUnit.SQIN,
+            AreaUnit.SQMM,
+            AreaUnit.SQYARD,
+            AreaUnit.SQMI
         )
+
         CalUnitType.SPEED -> listOf(
             SpeedUnit.MPS,
             SpeedUnit.KPH,
             SpeedUnit.MPH
         )
+
         CalUnitType.TIME -> listOf(
             TimeUnit.SEC,
             TimeUnit.MIN,
             TimeUnit.HR,
             TimeUnit.DAY
         )
+
         CalUnitType.DATA -> listOf(
             DataUnit.B,
             DataUnit.KB,
@@ -82,37 +97,55 @@ fun UnitSelector(
             DataUnit.GB,
             DataUnit.TB
         )
+
+        else -> emptyList()
     }
 
-    Surface(color = Color.White, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
+    if (show) ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = {
+            onSelect(null)
+        },
+        containerColor = Color.White,
+        dragHandle = {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text("Choose Unit", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 IconButton(
-                    onClick = {}) {
+                    onClick = {
+                        onSelect(null)
+                    }) {
                     Icon(Icons.Rounded.Close, contentDescription = "")
                 }
             }
-            LazyColumn(
+        }
+    ) {
+        Surface(color = Color.White, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) {
+            Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
             ) {
-                for (unit in unitList) {
-                    item {
-                        UnitItem(
-                            unit = unit,
-                            selected = unit.unit == "cm",
-                            onSelect = {}
-                        )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    for (unit in unitList) {
+                        item {
+                            UnitItem(
+                                unit = unit,
+                                selected = unit.unit == "cm",
+                                onSelect = {
+                                    onSelect(unit)
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -127,7 +160,10 @@ fun UnitItem(
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = if (selected) Color.Blue else Color(0xFAF3F5F6),
-        modifier = Modifier
+        modifier = Modifier,
+        onClick = {
+            onSelect(unit)
+        }
     ) {
         Row(
             modifier = Modifier
@@ -178,10 +214,14 @@ sealed class WeightUnit(unit: String, label: String) : CalUnit(unit, label) {
 }
 
 sealed class VolumeUnit(unit: String, label: String) : CalUnit(unit, label) {
-    object ML : CalUnit("ml", "Milliliter")
-    object L : CalUnit("l", "Liter")
+    object ML : CalUnit("mL", "Milliliter")
+    object L : CalUnit("L", "Liter")
     object GAL : CalUnit("gal", "Gallon")
     object PT : CalUnit("pt", "Pint")
+    object CL : CalUnit("cL", "Centiliter")
+    object DL : CalUnit("dL", "Deciliter")
+    object HL : CalUnit("hL", "Hectoliter")
+    object KL : CalUnit("kL", "Kiloliter")
 }
 
 sealed class TemperatureUnit(unit: String, label: String) {
@@ -194,10 +234,15 @@ sealed class AreaUnit(unit: String, label: String) : CalUnit(unit, label) {
     object SQM : CalUnit("m²", "Square Meter")
     object SQKM : CalUnit("km²", "Square Kilometer")
     object SQFT : CalUnit("ft²", "Square Foot")
-    object ACRE : CalUnit(
-        "acre",
-        "Acre"
+    object SQCM : CalUnit(
+        "cm²",
+        "Square Centimeter"
     )
+
+    object SQIN : CalUnit("in²", "Square Inch")
+    object SQMM : CalUnit("mm²", "Square Millimeter")
+    object SQYARD : CalUnit("yd²", "Square Yard")
+    object SQMI : CalUnit("mi²", "Square Mile")
 }
 
 sealed class SpeedUnit(unit: String, label: String) : CalUnit(unit, label) {
@@ -214,6 +259,9 @@ sealed class TimeUnit(unit: String, label: String) : CalUnit(unit, label) {
     object MIN : CalUnit("min", "Minute")
     object HR : CalUnit("hr", "Hour")
     object DAY : CalUnit("day", "Day")
+    object MILLISEC : CalUnit("ms", "Millisecond")
+    object NANOSEC : CalUnit("ns", "Nanosecond")
+    object MICROSEC : CalUnit("μs", "Microsecond")
 }
 
 sealed class DataUnit(unit: String, label: String) : CalUnit(unit, label) {
@@ -225,6 +273,11 @@ sealed class DataUnit(unit: String, label: String) : CalUnit(unit, label) {
         "TB",
         "Terabyte"
     )
+
+    object BIT : CalUnit("bit", "Bit")
+    object KBIT : CalUnit("Kbit", "Kilobit")
+    object MBIT : CalUnit("Mbit", "Megabit")
+    object GBIT : CalUnit("Gbit", "Gigabit")
 }
 
 enum class CalUnitType(val type: String) {

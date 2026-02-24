@@ -69,7 +69,7 @@ fun BasicScreen(
     val mode by basicViewModel.mode.collectAsState()
     val scrollState = rememberScrollState()
     val clipboardManager = LocalClipboard.current
-    val expression = basicViewModel.expressionListState.collectAsState()
+    val expression by basicViewModel.expressionListState.collectAsState()
 
     if (initId != null) {
         basicViewModel.initState(initId)
@@ -124,7 +124,7 @@ fun BasicScreen(
                     horizontalAlignment = Alignment.End
                 ) {
                     CalInput(
-                        value = expression.value,
+                        value = expression,
                         onPaste = {
                             basicViewModel.pasteFromClipboard(clipboardManager)
                         },
