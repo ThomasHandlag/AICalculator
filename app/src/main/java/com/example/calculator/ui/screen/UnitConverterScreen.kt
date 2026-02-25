@@ -139,7 +139,7 @@ fun UnitConverterScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceAround
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 LazyRow(
@@ -297,7 +297,7 @@ fun UnitConverterScreen(
                         }
 
                         else -> {
-                            converterViewModel.setInputValue(it)
+                            converterViewModel.setInputValue(inputValue + it)
                         }
                     }
                 }
@@ -316,7 +316,9 @@ fun UnitConverterScreen(
                         converterViewModel.setToUnit(it)
                     }
                     showUnitSelector = false
-                }, sheetState = bottomSheetState, show = showUnitSelector
+                }, sheetState = bottomSheetState, show = showUnitSelector,
+                selectedUnit = if (selectFor) fromUnit else toUnit,
+                selectFor = selectFor
             )
         }
     }
@@ -367,8 +369,7 @@ fun ConvertKeyboard(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         LazyVerticalGrid(
@@ -403,7 +404,7 @@ fun ConvertKeyboard(
                 onClick = {
                     onClick("Del")
                 },
-                background = Color(0xFFE0E0E0)
+                background = Color(0xFFDDE3F3)
             ) {
                 Icon(
                     Icons.Rounded.Backspace,

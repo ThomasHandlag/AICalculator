@@ -32,6 +32,10 @@ import androidx.compose.ui.unit.sp
 fun UnitSelector(
     unitType: CalUnitType = CalUnitType.LENGTH,
     onSelect: (CalUnit?) -> Unit = {},
+    fromUnit: CalUnit? = null,
+    toUnit: CalUnit? = null,
+    selectedUnit: CalUnit? = null,
+    selectFor: Boolean,
     sheetState: SheetState,
     show: Boolean = false
 ) {
@@ -140,10 +144,11 @@ fun UnitSelector(
                         item {
                             UnitItem(
                                 unit = unit,
-                                selected = unit.unit == "cm",
+                                selected = unit == selectedUnit,
                                 onSelect = {
-                                    onSelect(unit)
-                                }
+                                    if (unit.unit != (if (selectFor) fromUnit else toUnit)?.unit)
+                                        onSelect(unit)
+                                },
                             )
                         }
                     }
@@ -155,7 +160,7 @@ fun UnitSelector(
 
 @Composable
 fun UnitItem(
-    unit: CalUnit, selected: Boolean = false, onSelect: (CalUnit) -> Unit
+    unit: CalUnit, selected: Boolean = false, onSelect: (CalUnit) -> Unit,
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
