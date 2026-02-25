@@ -18,13 +18,31 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview
+fun UnitSelectorPreview() {
+    UnitSelector(
+        unitType = CalUnitType.LENGTH,
+        onSelect = {},
+        fromUnit = LengthUnit.CM,
+        toUnit = LengthUnit.M,
+        selectedUnit = LengthUnit.KM,
+        selectFor = true,
+        sheetState = rememberModalBottomSheetState { true },
+        show = true
+    )
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -142,7 +160,7 @@ fun UnitSelector(
                 ) {
                     for (unit in unitList) {
                         item {
-                            UnitItem(
+                            SelectorItem<CalUnit>(
                                 unit = unit,
                                 selected = unit == selectedUnit,
                                 onSelect = {
@@ -153,47 +171,6 @@ fun UnitSelector(
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun UnitItem(
-    unit: CalUnit, selected: Boolean = false, onSelect: (CalUnit) -> Unit,
-) {
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = if (selected) Color.Blue else Color(0xFAF3F5F6),
-        modifier = Modifier,
-        onClick = {
-            onSelect(unit)
-        }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Text(
-                    unit.unit,
-                    color = if (selected) Color.White else Color.Black,
-                )
-                Text(unit.label, color = Color(0xFA66707E))
-            }
-            IconButton(onClick = {
-
-            }) {
-                Icon(
-                    Icons.Rounded.ArrowForwardIos,
-                    contentDescription = "",
-                    tint = Color(0xFA66707E)
-                )
             }
         }
     }

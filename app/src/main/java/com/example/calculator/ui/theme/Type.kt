@@ -4,6 +4,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.calculator.R
@@ -18,31 +19,52 @@ val customFont = FontFamily(
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = customFont,
-        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = customFont,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        fontWeight = FontWeight.Medium
+    ),
+    bodySmall = TextStyle(
+        fontFamily = customFont,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal
     ),
     labelSmall = TextStyle(
         fontFamily = customFont,
-        fontWeight = FontWeight.Medium,
-        fontSize = 20.sp,
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        fontSize = 12.sp,
+        lineHeight = 16.sp
+    ),
+    displayLarge = TextStyle(
+        fontFamily = customFont,
+        fontSize = 55.sp,
+        lineHeight = 143.sp,
+        fontWeight = FontWeight.Medium,
+        letterSpacing = 6.5.sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = customFont,
+        fontSize = 32.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    displaySmall = TextStyle(
+        fontFamily = customFont,
+        fontSize = 26.sp,
+        fontWeight = FontWeight.SemiBold,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
         letterSpacing = 0.sp
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+    titleMedium = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp,
+    ),
 )
 

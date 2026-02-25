@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.calculator.ui.currency.CurrencyScreen
 import com.example.calculator.ui.screen.BasicScreen
 import com.example.calculator.ui.screen.CalModeScreen
 import com.example.calculator.ui.screen.HistoryScreen
@@ -109,6 +110,15 @@ fun NavigationGraph(
                 ),
                 onNavigateToCal = { id ->
                     navController.navigate("${Route.BasicCal.path}/$id")
+                }
+            )
+        }
+
+        composable(Route.CurCon.path) {
+            CurrencyScreen(
+                canPop = navController.previousBackStackEntry != null,
+                onNavigate = {
+                    navController.navigateUp()
                 }
             )
         }

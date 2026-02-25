@@ -17,15 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
-import androidx.compose.material.icons.rounded.Backspace
-import androidx.compose.material.icons.rounded.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,6 +50,7 @@ import com.example.calculator.R
 import com.example.calculator.ui.AppViewModelProvider
 import com.example.calculator.ui.viewmodel.UnitViewModel
 import com.example.calculator.ui.widgets.CalUnitType
+import com.example.calculator.ui.widgets.ConvertKeyboard
 import com.example.calculator.ui.widgets.UnitSelector
 
 @Composable
@@ -361,90 +357,3 @@ val sample = listOf(
     "1", "2", "3",
     "+/-", ".", "0"
 )
-
-@Preview(showBackground = true)
-@Composable
-fun ConvertKeyboard(
-    onClick: (String) -> Unit = {}
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.weight(6f)
-        ) {
-            items(sample.size, key = { sample[it] }) { index ->
-                KeyButon(
-                    background = Color(0xFFEDEDED),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        onClick(sample[index])
-                    }
-                ) {
-                    Text(
-                        text = sample[index],
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier.weight(1.9f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            KeyButon(
-                onClick = {
-                    onClick("Del")
-                },
-                background = Color(0xFFDDE3F3)
-            ) {
-                Icon(
-                    Icons.Rounded.Backspace,
-                    contentDescription = "Delete",
-                )
-            }
-            KeyButon(
-                onClick = {
-                    onClick("C")
-                },
-                background = Color(0xFFDDE3F3)
-            ) {
-                Text(
-                    text = "C",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.Black
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(.5f)
-                    .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xFF1E5CC6))
-                    .clickable(
-                        onClick = {
-                            onClick("=")
-                        }
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    Icons.Rounded.SwapVert,
-                    contentDescription = "Delete",
-                    modifier = Modifier.size(40.dp),
-                    tint = Color.White
-                )
-            }
-        }
-    }
-}
