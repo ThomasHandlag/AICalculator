@@ -1,4 +1,4 @@
-package com.example.calculator.ui.screen
+package com.example.calculator.ui.basic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -47,7 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.enums.scienceSymbols
 import com.example.calculator.enums.symbols
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewmodel.BasicViewModel
+import com.example.calculator.ui.screen.ScreenProps
 import com.example.calculator.ui.widgets.CalButton
 import com.example.calculator.ui.widgets.CalInput
 

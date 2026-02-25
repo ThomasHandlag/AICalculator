@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowForwardIos
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
@@ -160,7 +160,21 @@ fun UnitSelector(
                 ) {
                     for (unit in unitList) {
                         item {
-                            SelectorItem<CalUnit>(
+                            SelectorItem(
+                                title = {
+                                    Text(
+                                        text = unit.label,
+                                        color = if (unit.unit == (if (selectFor) fromUnit else toUnit)?.unit) Color.Black else Color.White,
+                                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium)
+                                    )
+                                },
+                                label = {
+                                    Text(
+                                        text = unit.unit,
+                                        color = Color(0xFF66707E),
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                },
                                 unit = unit,
                                 selected = unit == selectedUnit,
                                 onSelect = {

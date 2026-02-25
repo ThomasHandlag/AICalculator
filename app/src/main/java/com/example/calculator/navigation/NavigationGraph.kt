@@ -8,12 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.calculator.ui.currency.CurrencyScreen
-import com.example.calculator.ui.screen.BasicScreen
+import com.example.calculator.ui.basic.BasicScreen
 import com.example.calculator.ui.screen.CalModeScreen
 import com.example.calculator.ui.screen.HistoryScreen
 import com.example.calculator.ui.screen.OnboardScreen
 import com.example.calculator.ui.screen.ScreenProps
-import com.example.calculator.ui.screen.UnitConverterScreen
+import com.example.calculator.ui.unit.UnitConverterScreen
 
 @Composable
 fun NavigationGraph(

@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
-import com.example.calculator.ui.viewmodel.BasicViewModel
-import com.example.calculator.ui.viewmodel.TokenData
+import com.example.calculator.ui.basic.BasicViewModel
+import com.example.calculator.ui.basic.TokenData
 
 @Composable
 fun CalInput(

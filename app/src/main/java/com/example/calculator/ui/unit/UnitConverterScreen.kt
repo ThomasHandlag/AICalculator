@@ -1,10 +1,9 @@
-package com.example.calculator.ui.screen
+package com.example.calculator.ui.unit
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,13 +41,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.R
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewmodel.UnitViewModel
+import com.example.calculator.ui.unit.UnitViewModel
 import com.example.calculator.ui.widgets.CalUnitType
 import com.example.calculator.ui.widgets.ConvertKeyboard
 import com.example.calculator.ui.widgets.UnitSelector
@@ -216,22 +216,23 @@ fun UnitConverterScreen(
                             }
                         )
                     ) {
-                        Text("${fromUnit.unit} (${fromUnit.label})")
+                        Text(
+                            "${fromUnit.unit} (${fromUnit.label})",
+                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium)
+                        )
                         Icon(Icons.Rounded.ArrowDropDown, contentDescription = "Select Unit")
                     }
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFC9D5EF),
-                                shape = RoundedCornerShape(8.dp)
-                            ),
+                            .background(Color(0xFFF9FAFD)),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         Text(
-                            inputValue, modifier = Modifier
+                            inputValue,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier
                                 .padding(17.dp)
                         )
                     }
@@ -247,23 +248,24 @@ fun UnitConverterScreen(
                             }
                         )
                     ) {
-                        Text("${toUnit.unit} (${toUnit.label})")
+                        Text(
+                            "${toUnit.unit} (${toUnit.label})",
+                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium)
+                        )
                         Icon(Icons.Rounded.ArrowDropDown, contentDescription = "Select Unit")
                     }
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFC9D5EF),
-                                shape = RoundedCornerShape(8.dp)
-                            ),
+                            .background(Color(0xFFF9FAFD)),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         Text(
-                            result, modifier = Modifier
-                                .padding(17.dp)
+                            result,
+                            modifier = Modifier
+                                .padding(17.dp),
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                 }

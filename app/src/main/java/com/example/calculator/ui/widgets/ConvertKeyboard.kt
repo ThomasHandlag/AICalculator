@@ -26,8 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.calculator.ui.screen.KeyButon
-import com.example.calculator.ui.screen.sample
+import com.example.calculator.ui.unit.KeyButon
+import com.example.calculator.ui.unit.sample
 
 
 @Preview(showBackground = true)

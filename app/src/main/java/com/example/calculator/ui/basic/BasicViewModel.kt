@@ -1,4 +1,4 @@
-package com.example.calculator.ui.viewmodel
+package com.example.calculator.ui.basic
 
 import android.util.Log
 import androidx.compose.ui.platform.Clipboard

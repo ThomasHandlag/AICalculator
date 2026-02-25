@@ -114,15 +114,30 @@ fun CurrencySelector(
                                         if (currency.flagRsId != null) {
                                             Image(
                                                 painterResource(currency.flagRsId),
-                                                modifier = Modifier.size(30.dp, height = 25.dp),
+                                                modifier = Modifier.size(28.dp),
                                                 contentDescription = currency.code,
                                             )
                                         }
                                     },
                                     unit = currency,
                                     onSelect = { onSelect(it) },
-                                    title = { Text(it.name) },
-                                    label = { Text(it.displayName, color = Color.Gray) }
+                                    title = {
+                                        Text(
+                                            it.name,
+                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        )
+                                    },
+                                    label = {
+                                        Text(
+                                            it.displayName,
+                                            color = Color.Gray,
+                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        )
+                                    }
                                 )
                             }
                         }

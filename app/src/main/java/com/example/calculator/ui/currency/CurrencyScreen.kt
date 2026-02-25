@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -25,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -131,12 +133,26 @@ fun CurrencyScreen(
                             .background(Color(0xFFF3F7FF)),
                         contentAlignment = Alignment.CenterStart
                     ) {
-                        Text(
-                            amount,
-                            modifier = Modifier
-                                .padding(17.dp)
-                                .fillMaxWidth(),
-                        )
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(17.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                amount,
+                                modifier = Modifier
+                                    .fillMaxWidth(.99f),
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.End
+                            )
+                            Box(
+                                Modifier
+                                    .width(2.dp)
+                                    .height(18.dp)
+                                    .background(Color.Blue)
+                            )
+                        }
                     }
                 }
                 Column(
@@ -190,7 +206,9 @@ fun CurrencyScreen(
                         Text(
                             result, modifier = Modifier
                                 .padding(17.dp)
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.End
                         )
                     }
                 }
@@ -202,7 +220,7 @@ fun CurrencyScreen(
                     Text(
                         "1 ${from.code} = 0.85 ${to.code}",
                         textAlign = TextAlign.End,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = 24.dp)
                     )
                     Row(
