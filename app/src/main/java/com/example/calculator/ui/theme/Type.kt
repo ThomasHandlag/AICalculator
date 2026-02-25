@@ -41,7 +41,6 @@ val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = customFont,
         fontSize = 55.sp,
-        lineHeight = 143.sp,
         fontWeight = FontWeight.Medium,
         letterSpacing = 6.5.sp
     ),

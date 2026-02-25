@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +37,6 @@ import com.example.calculator.ui.viewmodel.TokenData
 fun CalInput(
     value: List<TokenData> = emptyList(),
     onPaste: (index: Long) -> Unit = {},
-    textStyle: TextStyle = TextStyle(fontSize = 60.sp, color = Color.Black),
     basicViewModel: BasicViewModel
 ) {
     val selectedIndex = basicViewModel.selectedTokenId.collectAsState()
@@ -45,14 +45,16 @@ fun CalInput(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
-            .padding(2.dp),
+            .height(80.dp),
         contentAlignment = Alignment.CenterEnd
     ) {
         if (value.isEmpty()) {
             Text(
                 text = "0",
-                style = textStyle.copy(color = Color.Gray.copy(alpha = 0.5f)),
+                style = MaterialTheme.typography.displayLarge.copy(
+                    color = Color.Gray.copy(alpha = 0.5f),
+                    lineHeight = 143.sp,
+                ),
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
         } else {
@@ -60,7 +62,7 @@ fun CalInput(
                 modifier = Modifier
                     .horizontalScroll(scrollState)
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    ,
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -69,7 +71,7 @@ fun CalInput(
                         token = token,
                         selectedIndex = selectedIndex.value,
                         setSelectedIndex = { index -> basicViewModel.setSelectedTokenId(index) },
-                        textStyle = textStyle,
+                        textStyle = MaterialTheme.typography.displayLarge.copy(color = Color.Black),
                         onPaste = {
                             onPaste(token.tokenId)
                         },

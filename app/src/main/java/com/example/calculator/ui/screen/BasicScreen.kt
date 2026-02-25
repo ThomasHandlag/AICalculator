@@ -19,12 +19,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Backspace
-import androidx.compose.material.icons.rounded.AutoAwesome
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,14 +41,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.text.style.TextAlign
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.enums.scienceSymbols
 import com.example.calculator.enums.symbols
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.theme.Typography
 import com.example.calculator.ui.viewmodel.BasicViewModel
 import com.example.calculator.ui.widgets.CalButton
 import com.example.calculator.ui.widgets.CalInput
@@ -100,7 +99,7 @@ fun BasicScreen(
                 actions = {
                     IconButton(
                         onClick = {}) {
-                        Icon(Icons.Rounded.AutoAwesome, contentDescription = "")
+                        Icon(Icons.Outlined.AutoAwesome, contentDescription = "")
                     }
                 }
             )
@@ -132,7 +131,9 @@ fun BasicScreen(
                     )
                     Text(
                         result,
-                        fontSize = 40.sp,
+                        style = MaterialTheme.typography.displayMedium.copy(
+                            lineHeight = 143.sp
+                        ),
                         color = Color(0xFFAAAAAA),
                         modifier = Modifier
                             .height(60.dp)
@@ -255,7 +256,7 @@ fun CalKeyboard(
                     ) {
                         Text(
                             scienceSymbol,
-                            fontSize = Typography.labelSmall.fontSize,
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 30.sp),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(10.dp),
                         )
@@ -282,7 +283,7 @@ fun CalKeyboard(
                 ) {
                     Text(
                         symbol,
-                        fontSize = Typography.labelSmall.fontSize,
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 30.sp),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(10.dp),
                     )
@@ -320,10 +321,10 @@ fun CalKeyboard(
             ) {
                 Text(
                     "=",
-                    fontSize = 30.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(10.dp),
-                    color = Color.White
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 30.sp)
                 )
             }
         }
