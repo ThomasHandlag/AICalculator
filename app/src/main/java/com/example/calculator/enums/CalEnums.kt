@@ -8,3 +8,9 @@ val scienceSymbols: List<String> = listOf(
     "Φ", "e", "log", "ln",
     "sin", "cos", "tan", "π", "e", "∛", "√", "^"
 )
+
+enum class AppThemeMode(val code: String, val displayName: String) {
+    SYSTEM("system", "System"),
+    LIGHT("light", "Light"),
+    DARK("dark", "Dark")
+}

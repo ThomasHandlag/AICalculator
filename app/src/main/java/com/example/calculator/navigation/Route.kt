@@ -8,6 +8,7 @@ sealed class Route(val path: String) {
     object BasicCal: Route("basic")
     object History: Route("history")
     object AiCal: Route("ai")
+    object AiHistory: Route("ai_history")
     object UnitCon: Route("unit")
     object CurCon: Route("currency")
     object DiscountCal: Route("discount")

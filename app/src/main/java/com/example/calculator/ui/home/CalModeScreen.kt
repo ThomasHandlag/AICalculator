@@ -1,6 +1,5 @@
-package com.example.calculator.ui.screen
+package com.example.calculator.ui.home
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBalance
-import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Balance
 import androidx.compose.material.icons.rounded.Calculate
@@ -20,8 +18,6 @@ import androidx.compose.material.icons.rounded.Percent
 import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material.icons.rounded.School
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.twotone.MonetizationOn
 import androidx.compose.material.icons.twotone.Paid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,8 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp

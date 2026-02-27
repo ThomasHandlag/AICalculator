@@ -1,4 +1,4 @@
-package com.example.calculator.ui.viewmodel
+package com.example.calculator.ui.history
 
 import android.content.ClipData
 import androidx.compose.ui.platform.ClipEntry

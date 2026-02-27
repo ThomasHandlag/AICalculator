@@ -1,18 +1,21 @@
 package com.example.calculator.navigation
 
-import com.example.calculator.ui.screen.SplashScreen
+import com.example.calculator.ui.splash.SplashScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.calculator.ui.ai.AiCalculatorScreen
+import com.example.calculator.ui.ai.AiHistoryScreen
 import com.example.calculator.ui.currency.CurrencyScreen
 import com.example.calculator.ui.basic.BasicScreen
-import com.example.calculator.ui.screen.CalModeScreen
-import com.example.calculator.ui.screen.HistoryScreen
-import com.example.calculator.ui.screen.OnboardScreen
+import com.example.calculator.ui.home.CalModeScreen
+import com.example.calculator.ui.history.HistoryScreen
+import com.example.calculator.ui.home.OnboardScreen
 import com.example.calculator.ui.screen.ScreenProps
+import com.example.calculator.ui.settings.SettingScreen
 import com.example.calculator.ui.unit.UnitConverterScreen
 
 @Composable
@@ -119,6 +122,62 @@ fun NavigationGraph(
                 canPop = navController.previousBackStackEntry != null,
                 onNavigate = {
                     navController.navigateUp()
+                }
+            )
+        }
+
+        composable(Route.Setting.path) {
+            val canPop = navController.previousBackStackEntry != null
+            SettingScreen(
+                canPop = canPop,
+                onPop = {
+                    navController.navigateUp()
+                },
+                onNavigate = {
+                    navController.navigate(Route.Onboard.path)
+                }
+            )
+        }
+
+        composable(Route.AiCal.path) {
+            val canPop = navController.previousBackStackEntry != null
+            AiCalculatorScreen(
+                onPop = {
+                    if (canPop)
+                        navController.navigateUp()
+                },
+                onNavigate = {
+                    navController.navigate(Route.AiHistory.path)
+                }
+            )
+        }
+
+        composable(
+            "${Route.AiCal.path}/{id}", arguments = listOf(
+                navArgument("id") { type = NavType.IntType }
+            )) { navBackStackEntry ->
+            val hId = navBackStackEntry
+                .arguments
+                ?.getInt("id")
+            AiCalculatorScreen(
+                id = hId,
+                onPop = {
+                    if (navController.previousBackStackEntry != null)
+                        navController.navigateUp()
+                },
+                onNavigate = {
+                    navController.navigate(Route.AiHistory.path)
+                }
+            )
+        }
+        composable(Route.AiHistory.path) {
+            AiHistoryScreen(
+                onPop = {
+                    if (navController.previousBackStackEntry != null)
+                        navController.navigateUp()
+                },
+                onNavigate = { id ->
+                    navController.navigate("${Route.AiCal.path}/$id")
                 }
             )
         }

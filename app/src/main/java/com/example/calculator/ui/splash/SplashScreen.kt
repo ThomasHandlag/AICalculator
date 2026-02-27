@@ -1,4 +1,4 @@
-package com.example.calculator.ui.screen
+package com.example.calculator.ui.splash
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -24,7 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.R
 import com.example.calculator.navigation.Route
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewmodel.AppViewModel
+import com.example.calculator.ui.home.AppViewModel
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 

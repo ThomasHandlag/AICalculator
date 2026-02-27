@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.com.google.gms.google.services)
 }
 
 android {
@@ -58,6 +59,14 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.compose.material3.window.size.class1)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.appcompat)
+    implementation(libs.androidx.compose.ui.text)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.extensions)
+    implementation(libs.androidx.camera.view)
+    implementation(platform(libs.com.google.firebase.bom))
+    implementation(libs.com.google.firebase.ai)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

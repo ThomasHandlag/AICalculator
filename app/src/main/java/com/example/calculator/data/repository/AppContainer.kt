@@ -7,6 +7,7 @@ import com.example.calculator.data.database.LocalDB
 interface AppContainer {
     val userPreferenceRepository: UserPreferenceRepository
     val calHistoryRepository: CalHistoryRepository
+    val chatHistoryRepository: ChatHistoryRepository
 }
 
 class DefaultAppContainer(
@@ -20,6 +21,13 @@ class DefaultAppContainer(
     override val calHistoryRepository: CalHistoryRepository by lazy {
         CalHistoryRepositoryImpl(
             calHistoryDAO = LocalDB.getInstance(context).calHistoryDAO()
+        )
+    }
+
+    override val chatHistoryRepository: ChatHistoryRepository by lazy {
+        ChatHistoryRepositoryImpl(
+            chatHistoryDAO = LocalDB.getInstance(context).chatHistoryDAO(),
+            chatMessageDAO = LocalDB.getInstance(context).chatMessageDAO()
         )
     }
 }

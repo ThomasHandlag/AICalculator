@@ -1,4 +1,4 @@
-package com.example.calculator.ui.screen
+package com.example.calculator.ui.history
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.calculator.ui.AppViewModelProvider
-import com.example.calculator.ui.viewmodel.CalHistoryData
-import com.example.calculator.ui.viewmodel.HistoryViewModel
+import com.example.calculator.ui.screen.ScreenProps
 import com.example.calculator.ui.widgets.HistoryDetail
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -167,7 +167,7 @@ fun HistoryItemPreview() {
             id = 1,
             expression = "23 + 45 × 6",
             result = "293",
-            timestamp = java.util.Date()
+            timestamp = Date()
         )
     )
 }
